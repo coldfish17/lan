@@ -1,0 +1,87 @@
+#include <stdio.h>  
+#include <stdbool.h>  
+  
+#define size 3  
+  
+char board[size][size] = {  
+    {' ', ' ', ' '},  
+    {' ', ' ', ' '},  
+    {' ', ' ', ' '}  
+};  
+  
+char currentplayer = 'X';  
+  
+void printboard() {  
+    for (int i = 0; i < size; i++) {  
+        for (int j = 0; j < size; j++) {  
+            printf(" %c ", board[i][j]);  
+        }  
+        printf("\n");  
+    }  
+}  
+  
+bool placemark(int row, int col) {  
+    if (row < 0 || row >= size || col < 0 || col >= size || board[row][col] != ' ') {  
+        return false;  
+    }  
+    board[row][col] = currentplayer;  
+    return true;  
+}  
+  
+bool checkwin() {  
+     
+    for (int i = 0; i < size; i++) {  
+        if (board[i][0] != ' ' && board[i][0] == board[i][1] && board[i][1] == board[i][2]) {  
+            return true;  
+        }  
+    }  
+     
+    for (int j = 0; j < size; j++) {  
+        if (board[0][j] != ' ' && board[0][j] == board[1][j] && board[1][j] == board[2][j]) {  
+            return true;  
+        }  
+    }  
+   
+    if (board[0][0] != ' ' && board[0][0] == board[1][1] && board[1][1] == board[2][2]) {  
+        return true;  
+    }  
+    if (board[0][2] != ' ' && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {  
+        return true;  
+    }  
+    return false;  
+}  
+  
+bool isboardfull() {  
+    for (int i = 0; i < size; i++) {  
+        for (int j = 0; j < size; j++) {  
+            if (board[i][j] == ' ') {  
+                return false;  
+            }  
+        }  
+    }  
+    return true;  
+}  
+  
+int main() {  
+    while (true) {  
+        printboard();  
+        printf("player %c, enter your move (row col): ", currentplayer);  
+        int row, col;  
+        scanf("%d %d", &row, &col);  
+        if (placemark(row, col)) {  
+            if (checkwin()) {  
+                printboard();  
+                printf("player %c wins!\n", currentplayer);  
+                break;  
+            } else if (isboardfull()) {  
+                printboard();  
+                printf("draw\n");  
+                break;  
+            }  
+            currentplayer = (currentplayer == 'X') ? 'O' : 'X';  
+        } else {  
+            printf("invalid move. try again.\n");  
+        }  
+    }  
+    return 0;  
+}
