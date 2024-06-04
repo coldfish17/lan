@@ -1,0 +1,98 @@
+/*File: five_in_a_row.c
+ * Author: Your Name
+ * Date: [Insert Date Here]
+ * Description: This is a simple console-based implementation of the game of Gomoku (Five in a Row).
+ * The game is played on a 15x15 board, and the objective is to align five of your
+ * pieces either horizontally, vertically, or diagonally.
+ */
+#include <stdio.h>
+#include <stdlib.h>
+
+#define BOARD_SIZE 15 
+#define WINNING_COMBO 5 
+
+int board[BOARD_SIZE][BOARD_SIZE];  
+int currentPlayer = 1; 
+
+void printBoard() {
+    printf("  ");
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        printf("%d ", i + 1);
+    }
+    printf("\n");
+    
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        printf("%d ", i + 1);
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            if (board[i][j] == 0) {
+                printf(". ");
+            } else {
+                printf("%d ", board[i][j]);
+            }
+        }
+        printf("\n");
+    }
+}
+
+int checkWin(int x, int y, int player) {
+    
+    int count = 1;
+    int i, j;
+    
+    for (i = x - 1; i >= 0 && board[i][y] == player; --i) count++;
+    for (i = x + 1; i < BOARD_SIZE && board[i][y] == player; ++i) count++;
+  
+    for (j = y - 1; j >= 0 && board[x][j] == player; --j) count++;
+    for (j = y + 1; j < BOARD_SIZE && board[x][j] == player; ++j) count++;
+    
+    for (i = x - 1, j = y - 1; i >= 0 && j >= 0 && board[i][j] == player; --i, --j) count++;
+    for (i = x + 1, j = y + 1; i < BOARD_SIZE && j < BOARD_SIZE && board[i][j] == player; ++i, ++j) count++;
+   
+    for (i = x - 1, j = y + 1; i >= 0 && j < BOARD_SIZE && board[i][j] == player; --i, ++j) count++;
+    for (i = x + 1, j = y - 1; i < BOARD_SIZE && j >= 0 && board[i][j] == player; ++i, --j) count++;
+    
+    return count >= WINNING_COMBO;
+}
+
+void placePiece(int x, int y) {
+    if (board[x][y] == 0) {
+        board[x][y] = currentPlayer;
+        currentPlayer = 3 - currentPlayer; 
+    } else {
+        printf("Invalid move. Try again.\n");
+    }
+}
+
+int main() {
+    int x, y;
+    
+    
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            board[i][j] = 0;
+        }
+    }
+    
+    printBoard();
+    
+    while (1) {
+        printf("Player %d's turn. Enter your move (x y): ", currentPlayer);
+        scanf("%d %d", &x, &y);
+        
+        if (x < 1 || x > BOARD_SIZE || y < 1 || y > BOARD_SIZE) {
+            printf("Invalid coordinates. Try again.\n");
+            continue;
+        }
+        
+        placePiece(x - 1, y - 1); 
+        
+        if (checkWin(x - 1, y - 1, currentPlayer)) {
+            printf("Player %d wins!\n", currentPlayer);
+            break;
+        }
+        
+        printBoard();
+    }
+    
+    return 0;
+}
