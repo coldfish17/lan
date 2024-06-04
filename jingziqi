@@ -1,3 +1,6 @@
+/* Simple implementation of the Tic-Tac-Toe game in C  
+// The game allows two players (X and O) to place marks on a 3x3 board.  
+*/ The first player starts with 'X', and the game continues until a player wins or the board is full.
 #include <stdio.h>  
 #include <stdbool.h>  
   
