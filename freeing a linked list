@@ -1,0 +1,40 @@
+/*freeing a linked list*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct list_item {
+    int data;
+    struct list_item* next;
+} list_item;
+
+int main() {
+    
+    list_item *head = NULL, *node, *temp;
+    for (int i = 1; i <= 3; ++i) {
+        node = (list_item*)malloc(sizeof(list_item));
+        if (!node) {
+            fprintf(stderr, "Memory allocation failed.\n");
+            return 1; 
+        }
+        node->data = i;
+        node->next = head;
+        head = node;
+    }
+
+    printf("Original list:\n");
+    for (node = head; node != NULL; node = node->next) {
+        printf("%d ", node->data);
+    }
+    printf("\n");
+
+    printf("Freeing list:\n");
+    while (head != NULL) {
+        temp = head;
+        head = head->next;
+        free(temp); 
+    }
+
+    printf("List has been successfully erased.\n");
+
+    return 0;
+}
