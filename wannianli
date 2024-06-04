@@ -1,3 +1,7 @@
+/* Simple calendar program in C  
+// This program takes a year as input and prints out the monthly calendars for that year.  
+// It includes functions to check for leap years, get the number of days in a month,  
+*/ print a monthly calendar, and print the entire year's calendar.
 #include <stdio.h>  
 #include <stdbool.h>  
   
