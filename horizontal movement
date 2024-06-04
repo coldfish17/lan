@@ -1,0 +1,66 @@
+/*  
+ * Simple program to display a framed message ("you make me happy")   
+ * moving horizontally across the screen.   
+ * The message starts from the left side of the screen and moves towards the right,  
+ * and when it reaches a certain position (here set to 30), it reverses direction  
+ * and moves towards the left until it reaches the left edge of the screen again.  
+ * The program uses ANSI escape codes for colorization and cursor positioning.  
+ * It runs indefinitely until manually terminated.  
+ */  
+#include <stdio.h>
+#include <stdio.h>
+#include <unistd.h>
+
+#define ANSI_COLOR_RED   "\x1b[31m"
+#define ANSI_COLOR_RESET "\x1b[0m"
+
+
+void printWithFrame(int position) {
+
+    printf("%s", "+");
+    for (int i = 0; i < position; i++) {
+        printf(" ");
+    }
+    printf("+-----------------+\n");
+
+    printf("%s", "|");
+    for (int i = 0; i < position; i++) {
+        printf(" ");
+    }
+    printf(" you make me happy\n");
+
+
+    printf("%s", "+");
+    for (int i = 0; i < position; i++) {
+        printf(" ");
+    }
+    printf("+-----------------+\n");
+}
+
+int main() {
+    int position = 0; 
+    int direction = 1; 
+
+    while (1) { 
+       
+        printf("\033[H\033[J%s", ANSI_COLOR_RED);
+
+        printWithFrame(position);
+       
+        printf("\033[H");
+
+        position += direction;
+       
+        if (position > 30) {
+            direction = -1; 
+        } else if (position < 0) { 
+            direction = 1;
+        }
+        
+        printf("%s", ANSI_COLOR_RESET);
+
+        usleep(100000); 
+    } 
+
+    return 0;
+}
