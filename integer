@@ -1,0 +1,27 @@
+/*
+* Write a function to access any element of a 2D array without using the array subscript operator.
+* The function calculates the memory offset of the target element to access it.
+* The correctness of the function should be verified.
+*/
+#include <stdio.h>
+
+int two_dim_array_access(int *x, int i, int j, int m, int n, int C) {
+    
+    int offset = i * C + j;
+    
+    return x[offset];
+}
+
+int main() {
+    int A[2][3] = {{1, 2, 3}, {4, 5, 6}};
+    int C = 3; 
+
+    
+    int val1 = two_dim_array_access(&A[0][0], 0, 0, 2, 3, C); 
+    int val2 = two_dim_array_access(&A[0][0], 1, 2, 2, 3, C); 
+
+    printf("The value of A[0][0] is %d\n", val1);
+    printf("The value of A[1][2] is %d\n", val2);
+
+    return 0;
+}
