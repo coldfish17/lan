@@ -1,0 +1,64 @@
+/*
+ * Sort a char-type 2D array based on specific conditions:
+ * (a) The sum of ASCII values of characters in an earlier row should be less than or equal to a later row.
+ * (b) Within any row, characters should be in non-decreasing order based on their ASCII values.
+ */
+#include <stdio.h>
+
+void bubbleSortRow(char *row, int length) {
+    for (int i = 0; i < length - 1; ++i) {
+        for (int j = 0; j < length - i - 1; ++j) {
+            if (row[j] > row[j + 1]) {
+                char temp = row[j];
+                row[j] = row[j + 1];
+                row[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    int rows, cols;
+    printf("Enter the number of rows: ");
+    scanf("%d", &rows);
+    printf("Enter the number of columns: ");
+    scanf("%d", &cols);
+
+
+    char A[rows][cols];
+    printf("Enter the elements of the 2D array:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            scanf(" %c", &A[i][j]);         }
+    }
+
+    for (int i = 0; i < rows; i++) {
+        bubbleSortRow(A[i], cols);
+    }
+
+    for (int i = 0; i < rows - 1; i++) {
+        for (int j = i + 1; j < rows; j++) {
+            int sumI = 0, sumJ = 0;
+            for (int k = 0; k < cols; k++) {
+                sumI += A[i][k];
+                sumJ += A[j][k];
+            }
+            if (sumI > sumJ) {
+                for (int k = 0; k < cols; k++) {
+                    char temp = A[i][k];
+                    A[i][k] = A[j][k];
+                    A[j][k] = temp;
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%c ", A[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
